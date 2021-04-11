@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="country-value" type="text" class="form-control" placeholder="Enter a Country for Weather ...">
+                <div class="input-group-append">
+                    <button id="search-btn" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="country-name">Bangladesh</h1>
+            <h3><span id="degree-celcious">31.06</span>&deg;C</h3>
+            <h1 class="lead" id="character">Clouds</h1>
+        </div>
+    </div>
+
+
+    <script>
+        
+        document.getElementById('search-btn').addEventListener('click',function(){
+            const countryValue = document.getElementById('country-value').value;
+            fetch('https://api.openweathermap.org/data/2.5/weather?q=' +countryValue+'&appid=09515cf004fc3280c70ab3ec99f957f3')
+            .then(response => response.json())
+            .then(data => getData(data))
+            .catch(error => alert('Worng City Name'))
+        });
+
+        function getData(data){
+            document.getElementById('country-name').innerText = data.name;
+            const kelvin = data.main.temp;
+            const celcious = kelvin - 273.15;
+            document.getElementById('degree-celcious').innerText = celcious.toFixed(2);
+            document.getElementById('character').innerText = data.weather[0].main;
+            console.log(data);
+        }
+        
+    </script>
+</body>
+
+</html>
